@@ -1,5 +1,6 @@
 import ethereumLogoUrl from 'assets/images/ethereum-logo.png'
 import arbitrumLogoUrl from 'assets/svg/arbitrum_logo.svg'
+import etherlinkLogo from 'assets/svg/etherlink_logo.svg'
 import optimismLogoUrl from 'assets/svg/optimistic_ethereum.svg'
 import polygonMaticLogo from 'assets/svg/polygon-matic-logo.svg'
 import ms from 'ms.macro'
@@ -175,7 +176,7 @@ export const CHAIN_INFO: ChainInfoMap = {
     explorer: 'https://explorer.ghostnet-evm.tzalpha.net/',
     infoLink: 'https://info.uniswap.org/#/polygon/',
     label: 'Etherlink',
-    logoUrl: polygonMaticLogo,
+    logoUrl: etherlinkLogo,
     nativeCurrency: { name: 'XTZ', symbol: 'XTZ', decimals: 18 },
   },
 }
