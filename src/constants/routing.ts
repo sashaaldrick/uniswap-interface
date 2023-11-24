@@ -167,7 +167,7 @@ export const COMMON_BASES: ChainCurrencyList = {
   ],
   [SupportedChainId.ETHERLINK]: [
     nativeOnChain(SupportedChainId.ETHERLINK),
-    WRAPPED_NATIVE_CURRENCY[SupportedChainId.ETHERLINK] as Token,
+    // WRAPPED_NATIVE_CURRENCY[SupportedChainId.ETHERLINK] as Token,
     WETH_ETHERLINK,
   ],
 }

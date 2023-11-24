@@ -338,6 +338,10 @@ function isMatic(chainId: number): chainId is SupportedChainId.POLYGON | Support
   return chainId === SupportedChainId.POLYGON_MUMBAI || chainId === SupportedChainId.POLYGON
 }
 
+function isEtherlink(chainId: number): chainId is SupportedChainId.ETHERLINK {
+  return chainId === SupportedChainId.ETHERLINK
+}
+
 class MaticNativeCurrency extends NativeCurrency {
   equals(other: Currency): boolean {
     return other.isNative && other.chainId === this.chainId
@@ -356,6 +360,24 @@ class MaticNativeCurrency extends NativeCurrency {
   }
 }
 
+class EtherlinkNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId
+  }
+
+  get wrapped(): Token {
+    if (!isEtherlink(this.chainId)) throw new Error('Not Etherlink')
+    const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId]
+    invariant(wrapped instanceof Token)
+    return wrapped
+  }
+
+  public constructor(chainId: number) {
+    if (!isEtherlink(chainId)) throw new Error('Not Etherlink')
+    super(chainId, 18, 'XTZ', 'XTZ')
+  }
+}
+
 export class ExtendedEther extends Ether {
   public get wrapped(): Token {
     const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId]
@@ -371,11 +393,21 @@ export class ExtendedEther extends Ether {
 }
 
 const cachedNativeCurrency: { [chainId: number]: NativeCurrency } = {}
+// export function nativeOnChain(chainId: number): NativeCurrency {
+//   return (
+//     cachedNativeCurrency[chainId] ??
+//     (cachedNativeCurrency[chainId] = isMatic(chainId)
+//       ? new MaticNativeCurrency(chainId)
+//       : ExtendedEther.onChain(chainId))
+//   )
+// }
 export function nativeOnChain(chainId: number): NativeCurrency {
   return (
     cachedNativeCurrency[chainId] ??
     (cachedNativeCurrency[chainId] = isMatic(chainId)
       ? new MaticNativeCurrency(chainId)
+      : isEtherlink(chainId)
+      ? new EtherlinkNativeCurrency(chainId)
       : ExtendedEther.onChain(chainId))
   )
 }
