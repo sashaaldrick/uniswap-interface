@@ -30,6 +30,7 @@ import {
   WBTC_ARBITRUM_ONE,
   WBTC_OPTIMISM,
   WBTC_POLYGON,
+  WETH_ETHERLINK,
   WETH_POLYGON,
   WETH_POLYGON_MUMBAI,
   WRAPPED_NATIVE_CURRENCY,
@@ -78,6 +79,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     USDT_POLYGON,
     WETH_POLYGON,
   ],
+  [SupportedChainId.ETHERLINK]: [...WRAPPED_NATIVE_CURRENCIES_ONLY[SupportedChainId.ETHERLINK], WETH_ETHERLINK],
 }
 export const ADDITIONAL_BASES: { [chainId: number]: { [tokenAddress: string]: Token[] } } = {
   [SupportedChainId.MAINNET]: {
@@ -162,6 +164,11 @@ export const COMMON_BASES: ChainCurrencyList = {
     nativeOnChain(SupportedChainId.POLYGON_MUMBAI),
     WRAPPED_NATIVE_CURRENCY[SupportedChainId.POLYGON_MUMBAI] as Token,
     WETH_POLYGON_MUMBAI,
+  ],
+  [SupportedChainId.ETHERLINK]: [
+    nativeOnChain(SupportedChainId.ETHERLINK),
+    // WRAPPED_NATIVE_CURRENCY[SupportedChainId.ETHERLINK] as Token,
+    WETH_ETHERLINK,
   ],
 }
 

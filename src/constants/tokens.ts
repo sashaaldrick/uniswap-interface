@@ -122,6 +122,7 @@ export const USDC: { [chainId in SupportedChainId]: Token } = {
   [SupportedChainId.RINKEBY]: USDC_RINKEBY,
   [SupportedChainId.KOVAN]: USDC_KOVAN,
   [SupportedChainId.ROPSTEN]: USDC_ROPSTEN,
+  [SupportedChainId.ETHERLINK]: USDC_ROPSTEN,
 }
 export const DAI_POLYGON = new Token(
   SupportedChainId.POLYGON,
@@ -264,6 +265,14 @@ export const WETH_POLYGON = new Token(
   'WETH',
   'Wrapped Ether'
 )
+
+export const WETH_ETHERLINK = new Token(
+  SupportedChainId.ETHERLINK,
+  '0x2ba87ed9Bed61b9a8f87fe9bdaE6292550F0cc3d',
+  18,
+  'WETH',
+  'Wrapped Ether'
+)
 export const UNI: { [chainId: number]: Token } = {
   [SupportedChainId.MAINNET]: new Token(SupportedChainId.MAINNET, UNI_ADDRESS[1], 18, 'UNI', 'Uniswap'),
   [SupportedChainId.RINKEBY]: new Token(SupportedChainId.RINKEBY, UNI_ADDRESS[4], 18, 'UNI', 'Uniswap'),
@@ -316,10 +325,21 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } =
     'WMATIC',
     'Wrapped MATIC'
   ),
+  [SupportedChainId.ETHERLINK]: new Token(
+    SupportedChainId.ETHERLINK,
+    '0x2ba87ed9Bed61b9a8f87fe9bdaE6292550F0cc3d',
+    18,
+    'WETH',
+    'Wrapped ETHER'
+  ),
 }
 
 function isMatic(chainId: number): chainId is SupportedChainId.POLYGON | SupportedChainId.POLYGON_MUMBAI {
   return chainId === SupportedChainId.POLYGON_MUMBAI || chainId === SupportedChainId.POLYGON
+}
+
+function isEtherlink(chainId: number): chainId is SupportedChainId.ETHERLINK {
+  return chainId === SupportedChainId.ETHERLINK
 }
 
 class MaticNativeCurrency extends NativeCurrency {
@@ -340,6 +360,24 @@ class MaticNativeCurrency extends NativeCurrency {
   }
 }
 
+class EtherlinkNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId
+  }
+
+  get wrapped(): Token {
+    if (!isEtherlink(this.chainId)) throw new Error('Not Etherlink')
+    const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId]
+    invariant(wrapped instanceof Token)
+    return wrapped
+  }
+
+  public constructor(chainId: number) {
+    if (!isEtherlink(chainId)) throw new Error('Not Etherlink')
+    super(chainId, 18, 'XTZ', 'XTZ')
+  }
+}
+
 export class ExtendedEther extends Ether {
   public get wrapped(): Token {
     const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId]
@@ -355,11 +393,21 @@ export class ExtendedEther extends Ether {
 }
 
 const cachedNativeCurrency: { [chainId: number]: NativeCurrency } = {}
+// export function nativeOnChain(chainId: number): NativeCurrency {
+//   return (
+//     cachedNativeCurrency[chainId] ??
+//     (cachedNativeCurrency[chainId] = isMatic(chainId)
+//       ? new MaticNativeCurrency(chainId)
+//       : ExtendedEther.onChain(chainId))
+//   )
+// }
 export function nativeOnChain(chainId: number): NativeCurrency {
   return (
     cachedNativeCurrency[chainId] ??
     (cachedNativeCurrency[chainId] = isMatic(chainId)
       ? new MaticNativeCurrency(chainId)
+      : isEtherlink(chainId)
+      ? new EtherlinkNativeCurrency(chainId)
       : ExtendedEther.onChain(chainId))
   )
 }

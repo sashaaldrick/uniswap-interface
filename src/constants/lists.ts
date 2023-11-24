@@ -23,10 +23,10 @@ const DEFAULT_LIST_OF_LISTS_TO_DISPLAY: string[] = [
   CMC_ALL_LIST,
   COINGECKO_LIST,
   KLEROS_LIST,
-  GEMINI_LIST,
+  // GEMINI_LIST,
   WRAPPED_LIST,
   SET_LIST,
-  ROLL_LIST,
+  // ROLL_LIST,
   ARBITRUM_LIST,
   OPTIMISM_LIST,
 ]
@@ -37,4 +37,4 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
 ]
 
 // default lists to be 'active' aka searched across
-export const DEFAULT_ACTIVE_LIST_URLS: string[] = [UNI_LIST, GEMINI_LIST]
+export const DEFAULT_ACTIVE_LIST_URLS: string[] = [UNI_LIST]
