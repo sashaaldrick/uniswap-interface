@@ -265,6 +265,14 @@ export const WETH_POLYGON = new Token(
   'WETH',
   'Wrapped Ether'
 )
+
+export const WETH_ETHERLINK = new Token(
+  SupportedChainId.ETHERLINK,
+  '0x2ba87ed9Bed61b9a8f87fe9bdaE6292550F0cc3d',
+  18,
+  'WETH',
+  'Wrapped Ether'
+)
 export const UNI: { [chainId: number]: Token } = {
   [SupportedChainId.MAINNET]: new Token(SupportedChainId.MAINNET, UNI_ADDRESS[1], 18, 'UNI', 'Uniswap'),
   [SupportedChainId.RINKEBY]: new Token(SupportedChainId.RINKEBY, UNI_ADDRESS[4], 18, 'UNI', 'Uniswap'),
