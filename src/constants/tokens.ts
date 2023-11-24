@@ -122,6 +122,7 @@ export const USDC: { [chainId in SupportedChainId]: Token } = {
   [SupportedChainId.RINKEBY]: USDC_RINKEBY,
   [SupportedChainId.KOVAN]: USDC_KOVAN,
   [SupportedChainId.ROPSTEN]: USDC_ROPSTEN,
+  [SupportedChainId.ETHERLINK]: USDC_ROPSTEN,
 }
 export const DAI_POLYGON = new Token(
   SupportedChainId.POLYGON,
@@ -315,6 +316,13 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } =
     18,
     'WMATIC',
     'Wrapped MATIC'
+  ),
+  [SupportedChainId.ETHERLINK]: new Token(
+    SupportedChainId.ETHERLINK,
+    '0x2ba87ed9Bed61b9a8f87fe9bdaE6292550F0cc3d',
+    18,
+    'WETH',
+    'Wrapped ETHER'
   ),
 }
 

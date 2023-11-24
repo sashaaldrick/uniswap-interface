@@ -167,4 +167,15 @@ export const CHAIN_INFO: ChainInfoMap = {
     logoUrl: polygonMaticLogo,
     nativeCurrency: { name: 'Polygon Mumbai Matic', symbol: 'mMATIC', decimals: 18 },
   },
+  [SupportedChainId.ETHERLINK]: {
+    networkType: NetworkType.L1,
+    blockWaitMsBeforeWarning: ms`10m`,
+    bridge: 'https://bridge.ghostnet-evm.tzalpha.net/',
+    docs: 'https://docs.etherlink.com/',
+    explorer: 'https://explorer.ghostnet-evm.tzalpha.net/',
+    infoLink: 'https://info.uniswap.org/#/polygon/',
+    label: 'Etherlink',
+    logoUrl: polygonMaticLogo,
+    nativeCurrency: { name: 'XTZ', symbol: 'XTZ', decimals: 18 },
+  },
 }
